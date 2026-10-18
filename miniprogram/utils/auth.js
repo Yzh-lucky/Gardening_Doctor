@@ -4,6 +4,8 @@ const { post, request, setReloginHandler, get } = require('./request');
 const TOKEN_KEY = 'token';
 
 let loginPromise = null;
+// 防重入：同一时刻有多个请求发现未登录时，只跳一次登录页
+let redirecting = false;
 
 function getToken() {
   return wx.getStorageSync(TOKEN_KEY) || '';
@@ -73,9 +75,41 @@ function login(options = {}) {
   return loginPromise;
 }
 
-/** 保证已登录：有 token 直接用，没有就登录 */
+/**
+ * 未登录 / 登录失效时统一跳登录页。
+ * 用 reLaunch 而不是 navigateTo：清空页面栈，避免用户按返回又回到需要登录的页面。
+ */
+function redirectToLogin() {
+  if (redirecting) return;
+  redirecting = true;
+  wx.reLaunch({
+    url: '/pages/login/login',
+    complete() {
+      // 稍作延迟再解锁，避免同一时刻的多个请求重复触发跳转
+      setTimeout(() => {
+        redirecting = false;
+      }, 800);
+    },
+  });
+}
+
+/** 登录态失效的统一处理：清掉旧 token + 跳登录页（不再静默续期） */
+function onUnauthorized() {
+  clearToken();
+  redirectToLogin();
+}
+
+/**
+ * 保证处于登录态：有 token 直接放行；没有则跳登录页并 reject。
+ * 不采用静默登录后，所有调用 ensureLogin 的页面都会被这个守卫拦住。
+ */
 function ensureLogin() {
-  return getToken() ? Promise.resolve(getToken()) : login({ silent: true }).then((d) => d.token);
+  const token = getToken();
+  if (token) {
+    return Promise.resolve(token);
+  }
+  redirectToLogin();
+  return Promise.reject({ code: 1001, message: '请先登录' });
 }
 
 function fetchProfile() {
@@ -86,8 +120,12 @@ function updateProfile(payload) {
   return request({ url: '/user/profile', method: 'PUT', data: payload });
 }
 
-// token 失效时，request 模块通过这个回调触发静默续期
-setReloginHandler(() => login({ silent: true }));
+// token 失效时，request 模块通过这个回调通知我们：不再静默续期，直接跳登录页。
+// 返回 rejected promise，让 request.js 的 .catch 接住本次请求，不再重发。
+setReloginHandler(() => {
+  onUnauthorized();
+  return Promise.reject({ code: 1001, message: '登录已过期，请重新登录' });
+});
 
 module.exports = {
   TOKEN_KEY,
@@ -96,6 +134,8 @@ module.exports = {
   clearToken,
   login,
   ensureLogin,
+  redirectToLogin,
+  onUnauthorized,
   fetchProfile,
   updateProfile,
 };

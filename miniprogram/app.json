@@ -6,7 +6,9 @@
     "pages/feedback/feedback",
     "pages/user/user",
     "pages/privacy/privacy",
-    "pages/disease/disease"
+    "pages/disease/disease",
+    "pages/profile/profile",
+    "pages/login/login"
   ],
   "window": {
     "backgroundTextStyle": "light",

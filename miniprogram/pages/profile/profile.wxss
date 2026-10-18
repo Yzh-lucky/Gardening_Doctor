@@ -1,0 +1,80 @@
+/* 资料完善页：头像与昵称编辑，沿用登录页同款控件样式 */
+
+.avatar-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* chooseAvatar 必须挂在 button 上，这里把原生按钮样式全部重置 */
+.avatar-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 8rpx 0 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  line-height: 1;
+  transition: transform 160ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 160ms ease;
+}
+
+.avatar-lg {
+  width: 176rpx;
+  height: 176rpx;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  border: 2rpx solid rgba(46, 125, 70, 0.14);
+  box-shadow: 0 10rpx 24rpx rgba(23, 53, 33, 0.08);
+}
+
+.avatar-hint {
+  margin-top: 16rpx;
+  font-size: var(--t-micro);
+  letter-spacing: 0.5rpx;
+  color: var(--brand);
+}
+
+.avatar-card .card-sub {
+  margin-top: 16rpx;
+  text-align: center;
+}
+
+.nickname-input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 96rpx;
+  padding: 0 4rpx;
+  border-bottom: 1rpx solid var(--line);
+  font-size: var(--t-h2);
+  font-weight: 600;
+  color: var(--ink);
+  transition: border-color 200ms ease;
+}
+
+.input-ph {
+  color: var(--ink-4);
+  font-size: var(--t-body);
+  font-weight: 400;
+}
+
+.counter {
+  margin-top: 16rpx;
+  text-align: right;
+}
+
+.action {
+  padding: 8rpx 0 0;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.action-note {
+  margin-top: 20rpx;
+  text-align: center;
+  font-size: var(--t-micro);
+  color: var(--ink-4);
+}

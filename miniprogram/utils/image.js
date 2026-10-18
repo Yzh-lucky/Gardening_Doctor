@@ -2,7 +2,7 @@
 // 关键点：小程序 wx.uploadFile 一次只能带一个文件，而 POST /diagnosis 要求 1–3 张图在**同一个请求**里，
 // 所以这里改用 wx.request + JSON（图片转 base64）。后端两条路径都支持，见 routers/diagnosis.py。
 const { baseUrl, debug } = require('../config');
-const { getToken, login } = require('./auth');
+const { getToken, onUnauthorized } = require('./auth');
 
 const MAX_SIZE_MB = 2;
 const MAX_COUNT = 3;
@@ -93,11 +93,10 @@ function doRequest(payload, retried) {
         if (body.code === 0 || body.code === 5001) {
           return resolve(Object.assign({ degraded: body.code === 5001 }, body.data));
         }
+        // 登录态失效：不再静默重登，跳登录页并放弃本次识别
         if ((body.code === 1001 || body.code === 1002) && !retried) {
-          return login({ silent: true })
-            .then(() => doRequest(payload, true))
-            .then(resolve)
-            .catch(reject);
+          onUnauthorized();
+          return reject(body);
         }
         if (debug) {
           console.warn('[image] 识别失败', body.code, body.message, body.trace_id);

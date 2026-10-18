@@ -13,7 +13,7 @@ from app.core.config import settings
 from app.core.errors import register_exception_handlers
 from app.core.logging import get_logger, setup_logging
 from app.core.middleware import TraceIdMiddleware
-from app.routers import admin, auth, diagnosis, diseases, feedback, health, quota, user
+from app.routers import admin, auth, avatar, diagnosis, diseases, feedback, health, quota, user
 from app.services.llm import get_llm_provider
 
 setup_logging()
@@ -59,6 +59,7 @@ def create_app() -> FastAPI:
     api_router.include_router(health.router)
     api_router.include_router(auth.router)
     api_router.include_router(user.router)
+    api_router.include_router(avatar.router)
     api_router.include_router(quota.router)
     api_router.include_router(diagnosis.router)
     api_router.include_router(feedback.router)

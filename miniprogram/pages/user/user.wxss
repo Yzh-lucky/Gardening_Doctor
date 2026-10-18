@@ -47,3 +47,8 @@
   font-weight: 500;
   transition: opacity 160ms ease;
 }
+
+/* 退出登录：唯一使用危险色的菜单行 */
+.logout {
+  color: var(--danger);
+}

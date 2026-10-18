@@ -1,0 +1,20 @@
+<view class="container">
+  <view class="brand">
+    <view class="brand-title">AI 园艺医生</view>
+    <view class="brand-sub">拍照识病 · 分层防治 · 家庭安全</view>
+    <view class="divider"></view>
+  </view>
+
+  <view class="agree-row" bindtap="toggleAgree" hover-class="press-fade" hover-stay-time="80">
+    <view class="agree-box {{agreed ? 'is-checked' : ''}}"></view>
+    <view class="agree-text">我已阅读并同意<text class="agree-link" catchtap="goPrivacy">《隐私政策与免责声明》</text></view>
+  </view>
+
+  <view class="action">
+    <button class="btn-primary btn-block" bindtap="onLogin" disabled="{{loading}}"
+            hover-class="press-hover" hover-stay-time="80">
+      {{loading ? '登录中…' : '微信一键登录'}}
+    </button>
+    <view class="action-note">登录后将创建你的园艺档案，用于保存诊断历史</view>
+  </view>
+</view>

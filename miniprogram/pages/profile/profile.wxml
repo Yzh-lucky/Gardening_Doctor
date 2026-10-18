@@ -1,0 +1,36 @@
+<view class="container">
+  <block wx:if="{{loading}}">
+    <view class="card">
+      <view class="card-title">资料加载中</view>
+      <view class="skeleton skel-line"></view>
+      <view class="skeleton skel-line short"></view>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="card avatar-card">
+      <view class="card-title">头像</view>
+      <button class="avatar-picker" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar"
+              hover-class="press-hover" hover-stay-time="80">
+        <image class="avatar-lg" src="{{avatarTempPath || avatarUrl || '/assets/avatar-default.png'}}" mode="aspectFill" />
+        <view class="avatar-hint">点击更换头像</view>
+      </button>
+      <view class="card-sub">建议使用清晰的正方形图片，单张不超过 2MB</view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">昵称</view>
+      <input class="nickname-input" type="nickname" placeholder="点击填写昵称" placeholder-class="input-ph"
+             maxlength="24" value="{{nickname}}" bindinput="onNicknameInput" bindblur="onNicknameInput" />
+      <view class="counter label">{{nickname.length}}/24</view>
+    </view>
+
+    <view class="action">
+      <button class="btn-primary btn-block" bindtap="onSave" disabled="{{saving}}"
+              hover-class="press-hover" hover-stay-time="80">
+        {{saving ? '保存中…' : '保存'}}
+      </button>
+      <view class="action-note">昵称与头像会展示在个人中心，诊断历史与额度不受影响</view>
+    </view>
+  </block>
+</view>

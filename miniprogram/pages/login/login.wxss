@@ -1,0 +1,93 @@
+/* 登录页：品牌头 + 协议勾选 + 一键登录 */
+
+.brand {
+  padding: 24rpx 0 0;
+}
+
+.brand-title {
+  font-size: var(--t-display);
+  font-weight: 700;
+  letter-spacing: 0.5rpx;
+  color: var(--ink);
+}
+
+.brand-sub {
+  margin-top: 12rpx;
+  font-size: var(--t-sm);
+  letter-spacing: 1rpx;
+  color: var(--ink-3);
+}
+
+/* ---------- 协议勾选 ---------- */
+.agree-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 8rpx 8rpx 24rpx;
+  transition: opacity 160ms ease;
+}
+
+.agree-box {
+  position: relative;
+  flex: 0 0 auto;
+  width: 34rpx;
+  height: 34rpx;
+  margin: 4rpx 16rpx 0 0;
+  box-sizing: border-box;
+  border: 2rpx solid var(--ink-4);
+  border-radius: 8rpx;
+  background: var(--paper);
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.agree-box::after {
+  content: "";
+  position: absolute;
+  left: 10rpx;
+  top: 4rpx;
+  width: 8rpx;
+  height: 16rpx;
+  border: 4rpx solid transparent;
+  border-left: 0;
+  border-top: 0;
+  transform: rotate(45deg) scale(0.6);
+  opacity: 0;
+  transition: opacity 180ms ease, transform 180ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.agree-box.is-checked {
+  background: var(--brand);
+  border-color: var(--brand);
+}
+
+.agree-box.is-checked::after {
+  border-color: #ffffff;
+  opacity: 1;
+  transform: rotate(45deg) scale(1);
+}
+
+.agree-text {
+  flex: 1;
+  font-size: var(--t-cap);
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+.agree-link {
+  color: var(--brand);
+}
+
+/* ---------- 操作区 ---------- */
+.action {
+  padding-top: 8rpx;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.action-note {
+  margin-top: 20rpx;
+  text-align: center;
+  font-size: var(--t-micro);
+  color: var(--ink-4);
+}

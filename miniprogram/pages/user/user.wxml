@@ -33,6 +33,14 @@
       <text>重新登录</text>
       <text class="entry-arrow">›</text>
     </view>
+    <view class="entry" bindtap="goProfile" hover-class="press-hover" hover-stay-time="80">
+      <text>完善资料</text>
+      <text class="entry-arrow">›</text>
+    </view>
+    <view class="entry" bindtap="onLogout" hover-class="press-hover" hover-stay-time="80">
+      <text class="logout">退出登录</text>
+      <text class="entry-arrow">›</text>
+    </view>
     <view class="entry" bindtap="goPrivacy" hover-class="press-hover" hover-stay-time="80">
       <text>隐私政策与免责声明</text>
       <text class="entry-arrow">›</text>
