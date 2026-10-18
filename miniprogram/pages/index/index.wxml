@@ -1,4 +1,15 @@
 <view class="container">
+  <!-- 顶部问候条：右上角头像与个人中心同源，点击等价于「个人中心」入口 -->
+  <view class="home-head">
+    <view class="home-greet">
+      <view class="home-hi">{{userInfo.nickname || '园艺新手'}}</view>
+      <view class="home-sub">今天也要把植物照看好</view>
+    </view>
+    <view class="home-avatar-hit" bindtap="goUser" hover-class="press-hover" hover-stay-time="80">
+      <image class="home-avatar" src="{{userInfo.avatar_url || '/assets/avatar-default.png'}}" mode="aspectFill" />
+    </view>
+  </view>
+
   <!-- 额度：全局唯一的高对比数据块，一眼看到今天还能用几次 -->
   <block wx:if="{{quota}}">
     <view class="stat-panel">

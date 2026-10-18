@@ -1,4 +1,53 @@
-/* 首页：额度面板 → 拍照主操作 → 入口 → 科普，自上而下一条动线 */
+/* 首页：顶部问候 → 额度面板 → 拍照主操作 → 入口 → 科普，自上而下一条动线 */
+
+/* ---------- 顶部问候条 ---------- */
+.home-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28rpx;
+}
+
+.home-greet {
+  flex: 1;
+  overflow: hidden;
+}
+
+.home-hi {
+  font-size: var(--t-h1);
+  font-weight: 600;
+  letter-spacing: 0.2rpx;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.home-sub {
+  margin-top: 6rpx;
+  font-size: var(--t-cap);
+  color: var(--ink-3);
+}
+
+/* 头像：沿用个人中心那套外圈细环 + 轻投影，保证两处观感一致。
+   外层留 8rpx 内边距把点击区撑到 104rpx，再用负外边距让头像右缘与页面留白对齐 */
+.home-avatar-hit {
+  flex: 0 0 auto;
+  padding: 8rpx;
+  margin: -8rpx -8rpx -8rpx 0;
+  border-radius: 50%;
+  transition: transform 160ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 160ms ease;
+}
+
+.home-avatar {
+  display: block;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  border: 2rpx solid rgba(46, 125, 70, 0.14);
+  box-shadow: 0 8rpx 20rpx rgba(23, 53, 33, 0.08);
+}
 
 /* ---------- 图片选择区 ---------- */
 .picked-list {

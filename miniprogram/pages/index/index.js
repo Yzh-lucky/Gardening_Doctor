@@ -8,6 +8,8 @@ const DISEASE_PREVIEW_COUNT = 5; // 首页科普卡片只展示前几条，避�
 Page({
   data: {
     quota: null,
+    // 顶部问候条要展示当前登录用户的昵称与头像，需与个人中心同源
+    userInfo: null,
     picked: [],
     ready: false,
     plantHint: '',
@@ -80,7 +82,7 @@ Page({
           app.globalData.userInfo = profile;
           app.globalData.quota = profile.quota;
         }
-        this.setData({ quota: profile.quota });
+        this.setData({ quota: profile.quota, userInfo: profile });
       })
       .catch(() => {
         // 登录/资料失败不阻塞首页；额度区域保持空
