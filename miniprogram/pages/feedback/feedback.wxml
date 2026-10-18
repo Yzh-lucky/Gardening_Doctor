@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="card">
+    <view class="card-title">反馈识别结果</view>
+    <view class="muted">记录 ID：{{recordId || '未传'}}</view>
+
+    <view class="divider"></view>
+
+    <view class="label section-label">这次识别</view>
+    <radio-group class="type-group" bindchange="onTypeChange">
+      <label class="type-item"><radio value="like" />结果有帮助</label>
+      <label class="type-item"><radio value="wrong" checked />识别错误</label>
+      <label class="type-item"><radio value="dislike" />结果没帮助</label>
+    </radio-group>
+
+    <input wx:if="{{type === 'wrong'}}" class="field field-in" placeholder-class="field-placeholder"
+           placeholder="正确的病虫害名称（识别错误时填写）"
+           value="{{correctName}}" maxlength="64" bindinput="onCorrectNameInput" />
+    <textarea class="field field-textarea" placeholder-class="field-placeholder"
+              placeholder="补充说明（最长 200 字）" maxlength="200"
+              value="{{comment}}" bindinput="onCommentInput" />
+
+    <button class="btn-primary btn-block" bindtap="onSubmit" disabled="{{submitting}}"
+            hover-class="press-hover" hover-stay-time="80">
+      {{submitting ? '提交中…' : '提交反馈'}}
+    </button>
+  </view>
+</view>

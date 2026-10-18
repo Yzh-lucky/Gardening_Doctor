@@ -1,0 +1,23 @@
+# 环境与密钥
+.env
+.env.local
+*.env
+
+# Python
+backend/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# 运行时产物
+backend/uploads/
+backend/logs/
+*.log
+
+# 编辑器 / 系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

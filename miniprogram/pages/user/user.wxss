@@ -1,0 +1,49 @@
+/* 个人中心：身份卡 + 深色额度面板 + 菜单列表 */
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  padding: 36rpx 32rpx;
+}
+
+/* 底色可兜住头像加载失败的场景，视觉上仍是完整设计；外圈细环让头像更精致 */
+.avatar {
+  flex: 0 0 auto;
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  border: 2rpx solid rgba(46, 125, 70, 0.14);
+  box-shadow: 0 8rpx 20rpx rgba(23, 53, 33, 0.08);
+  margin-right: 28rpx;
+}
+
+.info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.profile-name {
+  font-size: var(--t-h2);
+  font-weight: 600;
+  letter-spacing: 0.2rpx;
+  color: var(--ink);
+}
+
+.profile-id {
+  margin-top: 8rpx;
+  font-size: var(--t-cap);
+  color: var(--ink-3);
+}
+
+.menu-card {
+  padding: 8rpx 32rpx;
+}
+
+.policy-link {
+  margin-top: 20rpx;
+  font-size: var(--t-sm);
+  color: var(--brand);
+  font-weight: 500;
+  transition: opacity 160ms ease;
+}

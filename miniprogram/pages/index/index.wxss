@@ -1,0 +1,184 @@
+/* 首页：额度面板 → 拍照主操作 → 入口 → 科普，自上而下一条动线 */
+
+/* ---------- 图片选择区 ---------- */
+.picked-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 28rpx 0 4rpx;
+}
+
+.picked-item {
+  position: relative;
+  width: 160rpx;
+  height: 160rpx;
+  margin: 0 20rpx 20rpx 0;
+}
+
+.picked-thumb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--r-md);
+  background: var(--brand-tint);
+}
+
+.picked-remove {
+  position: absolute;
+  top: -14rpx;
+  right: -14rpx;
+  width: 44rpx;
+  height: 44rpx;
+  line-height: 42rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: rgba(23, 35, 26, 0.62);
+  color: #ffffff;
+  font-size: 30rpx;
+  transition: transform 160ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 160ms ease;
+}
+
+/* ---------- 作物提示输入 ---------- */
+.hint-input {
+  margin: 24rpx 0 0;
+  padding: 22rpx 28rpx;
+  background: var(--canvas);
+  border: 1rpx solid var(--line);
+  border-radius: var(--r-md);
+  font-size: var(--t-sm);
+  color: var(--ink);
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.hint-placeholder {
+  color: var(--ink-4);
+}
+
+/* ---------- 主操作 + 次操作 ---------- */
+.capture-btn {
+  width: 100%;
+  margin-top: 28rpx;
+}
+
+.choose-row {
+  display: flex;
+  margin-top: 20rpx;
+}
+
+.choose-btn {
+  flex: 1;
+}
+
+.choose-btn + .choose-btn {
+  margin-left: 20rpx;
+}
+
+/* ---------- 入口列表 ---------- */
+.menu-card {
+  padding: 8rpx 32rpx;
+}
+
+/* ---------- 科普卡片 ---------- */
+.disease-item {
+  padding: 26rpx 0;
+  border-bottom: 1rpx solid var(--line);
+  transition: transform 160ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 160ms ease;
+}
+
+.disease-item:last-child {
+  border-bottom: none;
+}
+
+.disease-head {
+  display: flex;
+  align-items: center;
+}
+
+.disease-name {
+  font-size: var(--t-body);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.disease-head .chip {
+  margin-left: 16rpx;
+}
+
+.disease-symptom {
+  margin-top: 8rpx;
+  font-size: var(--t-cap);
+  line-height: 1.55;
+  color: var(--ink-3);
+}
+
+/* 科普列表加载态：两条骨架线代替干巴巴的「加载中…」 */
+.disease-loading {
+  padding-bottom: 12rpx;
+}
+
+/* ---------- 隐私授权弹窗 ---------- */
+.privacy-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 48rpx;
+  background: rgba(18, 30, 21, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+/* 弹窗从下方轻微上浮并放大就位，比直接出现更有分量 */
+.privacy-dialog {
+  width: 100%;
+  max-width: 620rpx;
+  padding: 44rpx 36rpx 32rpx;
+  background: var(--paper);
+  border-radius: 32rpx;
+  box-shadow: 0 24rpx 60rpx rgba(18, 30, 21, 0.18);
+  animation: dialogIn 340ms cubic-bezier(0.34, 1.35, 0.5, 1) both;
+}
+
+.privacy-title {
+  font-size: var(--t-h2);
+  font-weight: 600;
+  text-align: center;
+  color: var(--ink);
+  margin-bottom: 20rpx;
+}
+
+.privacy-dialog .muted {
+  line-height: 1.7;
+}
+
+.privacy-link {
+  margin: 24rpx 0 4rpx;
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--brand);
+  transition: opacity 160ms ease;
+}
+
+.privacy-actions {
+  display: flex;
+  margin-top: 28rpx;
+}
+
+.privacy-actions .btn-secondary,
+.privacy-actions .btn-primary {
+  height: 84rpx;
+  line-height: 84rpx;
+  font-size: var(--t-sm);
+  padding: 0 24rpx;
+}
+
+.privacy-reject {
+  flex: 1;
+}
+
+.privacy-agree {
+  flex: 1.3;
+  margin-left: 20rpx;
+}

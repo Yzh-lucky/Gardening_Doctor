@@ -1,0 +1,32 @@
+<view class="container">
+  <!-- 记录列表：整卡分组 + 发丝线分隔，比逐条浮动卡片更像一份清单 -->
+  <view class="card list-card" wx:if="{{records.length}}">
+    <view class="record" wx:for="{{records}}" wx:key="id" data-id="{{item.id}}" bindtap="goDetail"
+          hover-class="press-hover" hover-stay-time="80">
+      <view class="thumb">
+        <image wx:if="{{item.thumbnailUrl}}" class="thumb-img" src="{{item.thumbnailUrl}}" mode="aspectFill" />
+      </view>
+      <view class="record-main">
+        <view class="record-title">{{item.disease_name || '未识别出病名'}}</view>
+        <view class="record-meta">
+          <text>{{item.timeText}} · {{item.statusText}}</text>
+          <text wx:if="{{item.confidenceText}}"> · 置信度 {{item.confidenceText}}</text>
+        </view>
+      </view>
+      <view class="arrow">›</view>
+    </view>
+  </view>
+
+  <view wx:if="{{loadingMore}}" class="load-more">
+    <view class="spinner spinner-sm"></view>
+    <text>加载中…</text>
+  </view>
+  <view wx:elif="{{loaded && records.length && !hasMore}}" class="load-more">没有更多了</view>
+
+  <view wx:if="{{loaded && !records.length}}" class="empty">
+    <view class="empty-title">还没有诊断记录</view>
+    <view class="muted">拍一张叶片照片，AI 帮你判断病虫害</view>
+    <button class="btn-primary back-btn" bindtap="goIndex"
+            hover-class="press-hover" hover-stay-time="80">去拍一张</button>
+  </view>
+</view>

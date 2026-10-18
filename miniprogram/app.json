@@ -1,0 +1,21 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/result/result",
+    "pages/history/history",
+    "pages/feedback/feedback",
+    "pages/user/user",
+    "pages/privacy/privacy",
+    "pages/disease/disease"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1f5834",
+    "navigationBarTitleText": "AI 园艺医生",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f4f7f4"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

@@ -1,0 +1,70 @@
+<view class="container">
+  <block wx:if="{{detail}}">
+    <view class="hero">
+      <view class="hero-name">{{detail.name}}</view>
+      <view class="hero-meta">
+        <text class="chip">{{detail.category || '未分类'}}</text>
+        <text wx:if="{{detail.aliases}}" class="hero-alias">别名：{{detail.aliases}}</text>
+      </view>
+    </view>
+
+    <view class="card" wx:if="{{detail.symptoms}}">
+      <view class="card-title">症状表现</view>
+      <view class="para">{{detail.symptoms}}</view>
+    </view>
+
+    <view class="card" wx:if="{{detail.causes}}">
+      <view class="card-title">成因</view>
+      <view class="para">{{detail.causes}}</view>
+    </view>
+
+    <view class="card" wx:if="{{detail.plan_l1}}">
+      <view class="plan-tag tag-l1">L1 家庭安全</view>
+      <view class="card-title">{{detail.plan_l1.title}}</view>
+      <view class="bullet" wx:for="{{detail.plan_l1.items}}" wx:key="*this">
+        <text class="bullet-txt">{{item}}</text>
+      </view>
+    </view>
+
+    <view class="card" wx:if="{{detail.plan_l2}}">
+      <view class="plan-tag tag-l2">L2 低毒合规</view>
+      <view class="card-title">{{detail.plan_l2.title}}</view>
+      <view class="chem-item" wx:for="{{detail.plan_l2.items}}" wx:key="name">
+        <view class="chem-name">{{item.name}}</view>
+        <view class="muted">{{item.usage}}</view>
+      </view>
+      <view class="plan-note" wx:if="{{detail.plan_l2.note}}">{{detail.plan_l2.note}}</view>
+    </view>
+
+    <view class="card" wx:if="{{detail.plan_l3}}">
+      <view class="plan-tag tag-l3">L3 专业干预</view>
+      <view class="card-title">{{detail.plan_l3.title}}</view>
+      <view class="bullet" wx:for="{{detail.plan_l3.items}}" wx:key="*this">
+        <text class="bullet-txt">{{item}}</text>
+      </view>
+      <view class="risk-note" wx:if="{{detail.plan_l3.risk_note}}">{{detail.plan_l3.risk_note}}</view>
+    </view>
+
+    <view class="safety-note" wx:if="{{detail.safety_notes}}">
+      <view class="guide-title">安全提示</view>
+      <view>{{detail.safety_notes}}</view>
+    </view>
+
+    <view class="card" wx:if="{{detail.confused_with}}">
+      <view class="card-title">容易混淆</view>
+      <view class="para">{{detail.confused_with}}</view>
+    </view>
+  </block>
+
+  <view class="card" wx:elif="{{loaded}}">
+    <view class="muted">{{error || '未找到该病害'}}</view>
+    <button class="btn-primary empty-btn" bindtap="goIndex"
+            hover-class="press-hover" hover-stay-time="80">返回首页</button>
+  </view>
+
+  <view class="card" wx:else>
+    <view class="skeleton skel-line"></view>
+    <view class="skeleton skel-line"></view>
+    <view class="skeleton skel-line short"></view>
+  </view>
+</view>

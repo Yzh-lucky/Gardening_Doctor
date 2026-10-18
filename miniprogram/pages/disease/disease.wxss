@@ -1,0 +1,37 @@
+/* 科普详情：先给一个不套卡片的标题区，再按「认识它 → 怎么办」的顺序铺开 */
+
+.hero {
+  padding: 40rpx 12rpx 36rpx;
+}
+
+.hero-name {
+  font-size: var(--t-h1);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.3rpx;
+  color: var(--ink);
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20rpx;
+}
+
+.hero-alias {
+  margin-left: 16rpx;
+  font-size: var(--t-cap);
+  color: var(--ink-3);
+}
+
+.para {
+  font-size: var(--t-sm);
+  line-height: 1.75;
+  color: var(--ink-2);
+}
+
+.empty-btn {
+  width: 400rpx;
+  margin: 32rpx auto 0;
+}

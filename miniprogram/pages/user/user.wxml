@@ -1,0 +1,50 @@
+<view class="container">
+  <view class="card profile-card">
+    <image class="avatar" src="{{userInfo.avatar_url || '/assets/avatar-default.png'}}" mode="aspectFill" />
+    <view class="info">
+      <view class="profile-name">{{userInfo.nickname || '园艺新手'}}</view>
+      <view class="profile-id">ID：{{userInfo.id || '-'}}</view>
+    </view>
+  </view>
+
+  <block wx:if="{{quota}}">
+    <view class="stat-panel">
+      <view class="stat-veil"></view>
+      <view class="stat-label">今日额度</view>
+      <view class="stat-row">
+        <text class="stat-num">{{quota.remaining}}</text>
+        <text class="stat-unit">/ {{quota.limit_count}} 次</text>
+      </view>
+      <view class="stat-foot">{{quota.reset_at}} 重置</view>
+    </view>
+  </block>
+  <view wx:else class="card">
+    <view class="card-title">今日额度</view>
+    <view class="skeleton skel-line"></view>
+    <view class="skeleton skel-line short"></view>
+  </view>
+
+  <view class="card menu-card">
+    <view class="entry" bindtap="goHistory" hover-class="press-hover" hover-stay-time="80">
+      <text>我的诊断历史</text>
+      <text class="entry-arrow">›</text>
+    </view>
+    <view class="entry" bindtap="onRelogin" hover-class="press-hover" hover-stay-time="80">
+      <text>重新登录</text>
+      <text class="entry-arrow">›</text>
+    </view>
+    <view class="entry" bindtap="goPrivacy" hover-class="press-hover" hover-stay-time="80">
+      <text>隐私政策与免责声明</text>
+      <text class="entry-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">免责声明</view>
+    <view class="muted">
+      识别结果由 AI 生成，仅供参考，不能替代专业植保诊断。病情严重或反复发作时，请联系当地植保站或专业园艺服务。
+      用药请严格按说明书使用，置于儿童与宠物接触不到处。
+    </view>
+    <view class="policy-link" bindtap="goPrivacy" hover-class="press-fade" hover-stay-time="80">查看完整《隐私政策与免责声明》›</view>
+  </view>
+</view>

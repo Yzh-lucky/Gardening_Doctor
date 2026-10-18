@@ -1,0 +1,114 @@
+<view class="container">
+  <!-- 识别等待：自转外圈 + 呼吸圆点，把等待时间做得可感知 -->
+  <view wx:if="{{loading}}" class="loading-center">
+    <view class="scan-orb">
+      <view class="scan-ring"></view>
+      <view class="scan-dot"></view>
+    </view>
+    <view class="loading-text">AI 正在解析这张照片…</view>
+  </view>
+
+  <!-- 失败态（T2.6） -->
+  <view wx:elif="{{failed}}" class="card fail-card">
+    <view class="card-title">这次没识别成功</view>
+    <view class="muted">可能是网络或服务波动，回去重新拍一张即可。识别失败不扣次数。</view>
+    <button class="btn-primary fail-btn" bindtap="onRetake"
+            hover-class="press-hover" hover-stay-time="80">返回重新识别</button>
+  </view>
+
+  <block wx:elif="{{result}}">
+    <!-- 降级标识：整条横幅，比小标签更容易被看见 -->
+    <view wx:if="{{degraded}}" class="degraded-tag degraded-banner">降级结果：大模型暂不可用，以下来自知识库匹配</view>
+
+    <!-- 补拍引导：confidence ≤ 0.5 或 need_more_info=true 时置顶（渲染硬约定） -->
+    <view wx:if="{{needGuide}}" class="guide">
+      <view class="guide-title">这张照片信息不太够，建议补充后再判断</view>
+      <view class="bullet" wx:for="{{result.followup_questions}}" wx:key="*this">
+        <text class="bullet-txt">{{item}}</text>
+      </view>
+      <view wx:if="{{!result.followup_questions.length}}" class="bullet"><text class="bullet-txt">建议补拍病斑特写、叶片背面与整株照片</text></view>
+    </view>
+
+    <!-- 结果头部 -->
+    <view class="card">
+      <view class="head-row">
+        <view class="disease-name">{{result.disease_name}}</view>
+        <view class="confidence">置信度 {{confidenceText}}</view>
+      </view>
+      <view class="result-meta">
+        {{result.category}} · 严重程度 {{severityText}}
+        <text wx:if="{{result.aliases.length}}"> · 别名：{{result.aliases}}</text>
+      </view>
+      <view class="symptom">{{result.symptom_summary}}</view>
+      <view wx:if="{{latencyText}}" class="latency">本次识别耗时 {{latencyText}}</view>
+    </view>
+
+    <!-- 症状确认点：让用户自己核对，降低"AI 说啥信啥" -->
+    <view class="card" wx:if="{{result.confirm_points.length}}">
+      <view class="card-title">对照自查：这些特征你也能看到吗</view>
+      <view class="check-item" wx:for="{{result.confirm_points}}" wx:key="*this">
+        <text class="check-txt">{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 易混淆项 -->
+    <view class="card" wx:if="{{result.confused_with.length}}">
+      <view class="card-title">容易和它搞混的病虫害</view>
+      <view class="confused-item" wx:for="{{result.confused_with}}" wx:key="name">
+        <view class="confused-name">{{item.name}}</view>
+        <view class="muted">关键区别：{{item.key_difference}}</view>
+      </view>
+    </view>
+
+    <!-- 安全提示：独立区域、固定高亮，不允许折叠进正文 -->
+    <view class="safety-note" wx:if="{{result.safety_notes.length}}">
+      <view class="guide-title">安全提示（家里有儿童 / 宠物必看）</view>
+      <view class="bullet" wx:for="{{result.safety_notes}}" wx:key="*this">
+        <text class="bullet-txt">{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 三档方案：即使某档为空也必须渲染，不能整块隐藏 -->
+    <view class="card">
+      <view class="plan-tag tag-l1">L1 家庭安全</view>
+      <view class="card-title">{{result.plan_l1_safe.title}}</view>
+      <view class="bullet" wx:for="{{result.plan_l1_safe.items}}" wx:key="*this">
+        <text class="bullet-txt">{{item}}</text>
+      </view>
+      <view wx:if="{{!result.plan_l1_safe.items.length}}" class="muted">暂无条目</view>
+    </view>
+
+    <view class="card">
+      <view class="plan-tag tag-l2">L2 低毒合规</view>
+      <view class="card-title">{{result.plan_l2_low_toxicity.title}}</view>
+      <view class="chem-item" wx:for="{{result.plan_l2_low_toxicity.items}}" wx:key="name">
+        <view class="chem-name">{{item.name}}</view>
+        <view class="muted">{{item.usage}}</view>
+      </view>
+      <view wx:if="{{!result.plan_l2_low_toxicity.items.length}}" class="muted">暂无推荐药剂</view>
+      <view wx:if="{{result.plan_l2_low_toxicity.note}}" class="plan-note">{{result.plan_l2_low_toxicity.note}}</view>
+    </view>
+
+    <view class="card">
+      <view class="plan-tag tag-l3">L3 专业干预</view>
+      <view class="card-title">{{result.plan_l3_professional.title}}</view>
+      <view class="bullet" wx:for="{{result.plan_l3_professional.items}}" wx:key="*this">
+        <text class="bullet-txt">{{item}}</text>
+      </view>
+      <view wx:if="{{!result.plan_l3_professional.items.length}}" class="muted">暂无条目</view>
+      <view wx:if="{{result.plan_l3_professional.risk_note}}" class="risk-note">{{result.plan_l3_professional.risk_note}}</view>
+    </view>
+
+    <view class="card">
+      <button class="btn-primary action-btn" bindtap="goFeedback"
+              hover-class="press-hover" hover-stay-time="80">反馈识别结果</button>
+      <button class="btn-secondary retake-btn" bindtap="onRetake"
+              hover-class="press-hover" hover-stay-time="80">再识别一张</button>
+    </view>
+
+    <!-- T3.8 免责声明：结果页固定展示，点进去看完整政策 -->
+    <view class="disclaimer" bindtap="goPrivacy" hover-class="press-fade" hover-stay-time="80">
+      AI 识别结果仅供参考，不能替代专业植保诊断；用药请按说明书使用。查看《隐私政策与免责声明》›
+    </view>
+  </block>
+</view>

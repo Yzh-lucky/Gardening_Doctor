@@ -1,0 +1,80 @@
+/* 反馈页：选项做成一列可点行，原生 radio 重新配色，不引入任何组件库 */
+
+.section-label {
+  margin-bottom: 16rpx;
+}
+
+.type-group {
+  margin-bottom: 28rpx;
+}
+
+.type-item {
+  display: flex;
+  align-items: center;
+  padding: 26rpx 28rpx;
+  margin-bottom: 16rpx;
+  background: var(--canvas);
+  border: 1rpx solid var(--line);
+  border-radius: var(--r-md);
+  font-size: var(--t-body);
+  color: var(--ink-2);
+}
+
+.type-item:last-child {
+  margin-bottom: 0;
+}
+
+/* 自绘单选圆点，替换微信原生绿色小圆 */
+.type-item radio {
+  margin-right: 16rpx;
+}
+
+.type-item .wx-radio-input {
+  width: 36rpx;
+  height: 36rpx;
+  border: 2rpx solid #cfd8d1;
+  border-radius: 50%;
+  background: transparent;
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.type-item .wx-radio-input.wx-radio-input-checked {
+  border-color: var(--brand) !important;
+  background: var(--brand) !important;
+}
+
+.type-item .wx-radio-input.wx-radio-input-checked::after {
+  border-color: #ffffff;
+}
+
+.field {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 24rpx 28rpx;
+  margin-bottom: 20rpx;
+  background: var(--canvas);
+  border: 1rpx solid var(--line);
+  border-radius: var(--r-md);
+  font-size: var(--t-body);
+  color: var(--ink);
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+/* 选了「识别错误」才出现的输入框，让它淡入上浮而不是硬插入 */
+.field-in {
+  animation: fadeUp 300ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.field-textarea {
+  height: 200rpx;
+  line-height: 1.6;
+}
+
+.btn-block {
+  width: 100%;
+  margin-top: 8rpx;
+}
+
+.field-placeholder {
+  color: var(--ink-4);
+}

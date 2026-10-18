@@ -1,0 +1,102 @@
+<view class="container">
+  <!-- 额度：全局唯一的高对比数据块，一眼看到今天还能用几次 -->
+  <block wx:if="{{quota}}">
+    <view class="stat-panel">
+      <view class="stat-veil"></view>
+      <view class="stat-label">今日剩余免费识别次数</view>
+      <view class="stat-row">
+        <text class="stat-num">{{quota.remaining}}</text>
+        <text class="stat-unit">/ {{quota.limit_count}} 次</text>
+      </view>
+      <view class="stat-foot">次日 0 点重置</view>
+    </view>
+  </block>
+  <view wx:else class="card">
+    <view class="card-title">今日剩余免费识别次数</view>
+    <view class="skeleton skel-line"></view>
+    <view class="skeleton skel-line short"></view>
+  </view>
+
+  <!-- 拍照入口 -->
+  <view class="card">
+    <view class="card-title">拍照识别植物病虫害</view>
+    <view class="card-sub">拍一张叶片/茎/果的清晰照片，不需要懂专业术语</view>
+
+    <view class="picked-list" wx:if="{{picked.length}}">
+      <view class="picked-item" wx:for="{{picked}}" wx:key="tempFilePath">
+        <image class="picked-thumb" src="{{item.tempFilePath}}" mode="aspectFill" />
+        <text class="picked-remove" data-index="{{index}}" bindtap="onRemovePicked"
+              hover-class="press-hover" hover-stay-time="80">×</text>
+      </view>
+    </view>
+
+    <input class="hint-input" placeholder-class="hint-placeholder"
+           placeholder="可选：作物名称（如 番茄），能提高准确率"
+           value="{{plantHint}}" maxlength="20" bindinput="onHintInput" />
+
+    <button class="btn-primary capture-btn" bindtap="onStartDiagnosis" disabled="{{!ready || recognizing}}"
+            hover-class="press-hover" hover-stay-time="80">
+      {{recognizing ? 'AI 识别中…' : '开始识别'}}
+    </button>
+    <view class="choose-row">
+      <button class="btn-secondary choose-btn" bindtap="onChooseCamera" disabled="{{recognizing}}"
+              hover-class="press-hover" hover-stay-time="80">拍照</button>
+      <button class="btn-secondary choose-btn" bindtap="onChooseAlbum" disabled="{{recognizing}}"
+              hover-class="press-hover" hover-stay-time="80">相册（最多 3 张）</button>
+    </view>
+  </view>
+
+  <!-- 入口 -->
+  <view class="card menu-card">
+    <view class="entry" bindtap="goHistory" hover-class="press-hover" hover-stay-time="80">
+      <text>我的诊断历史</text>
+      <text class="entry-arrow">›</text>
+    </view>
+    <view class="entry" bindtap="goUser" hover-class="press-hover" hover-stay-time="80">
+      <text>个人中心</text>
+      <text class="entry-arrow">›</text>
+    </view>
+    <view class="entry" bindtap="openPrivacy" hover-class="press-hover" hover-stay-time="80">
+      <text>隐私政策与免责声明</text>
+      <text class="entry-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">常见病虫害科普</view>
+    <block wx:if="{{diseases.length}}">
+      <view class="disease-item" wx:for="{{diseases}}" wx:key="id"
+            data-id="{{item.id}}" bindtap="goDisease"
+            hover-class="press-hover" hover-stay-time="80">
+        <view class="disease-head">
+          <text class="disease-name">{{item.name}}</text>
+          <text class="chip" wx:if="{{item.category}}">{{item.category}}</text>
+        </view>
+        <view class="disease-symptom">{{item.symptoms || '暂无症状描述'}}</view>
+      </view>
+    </block>
+    <view wx:elif="{{diseasesLoaded}}" class="muted">暂无科普内容</view>
+    <view wx:else class="disease-loading">
+      <view class="skeleton skel-line"></view>
+      <view class="skeleton skel-line short"></view>
+    </view>
+  </view>
+
+  <!-- T3.8 隐私授权弹窗：未同意前拦在拍照/相册入口之前 -->
+  <view wx:if="{{showPrivacy}}" class="privacy-mask">
+    <view class="privacy-dialog">
+      <view class="privacy-title">AI 园艺医生隐私政策</view>
+      <view class="muted">
+        为完成病虫害识别，我们需要收集你主动上传的植物照片、微信登录信息与诊断记录。
+        照片会发送给第三方大模型服务商用于识别，识别结果仅供参考。
+      </view>
+      <view class="privacy-link" bindtap="openPrivacy" hover-class="press-fade" hover-stay-time="80">查看《隐私政策与免责声明》›</view>
+      <view class="privacy-actions">
+        <button class="btn-secondary privacy-reject" bindtap="onRejectPrivacy"
+                hover-class="press-hover" hover-stay-time="80">暂不同意</button>
+        <button class="btn-primary privacy-agree" bindtap="onAgreePrivacy"
+                hover-class="press-hover" hover-stay-time="80">同意并继续</button>
+      </view>
+    </view>
+  </view>
+</view>

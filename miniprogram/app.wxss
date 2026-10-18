@@ -1,0 +1,577 @@
+/* ============================================================
+   AI 园艺医生 · 全局设计系统
+   设计主张：克制的「植物标本」编辑风 —— 深林绿作为唯一品牌锚点，
+   近白纸面 + 发丝分割线承载结构，靠留白与字号层级做高级感，
+   不依赖重阴影、彩色渐变与装饰性描边。
+   ============================================================ */
+
+page {
+  /* 品牌绿：以原 #2f7d32 为基准精修，压暗提纯，保证白底可读性 */
+  --brand: #2e7d46;
+  --brand-strong: #1f5834;
+  --brand-soft: #e8f2ea;
+  --brand-tint: #f3f8f4;
+
+  /* 语义色：三档方案与状态提示专用，同色系低饱和 */
+  --amber: #b0741a;
+  --amber-bg: #fbf2e1;
+  --danger: #b23a31;
+  --danger-bg: #fbeceb;
+  --info: #2c6699;
+  --info-bg: #edf4fa;
+
+  /* 中性灰阶 */
+  --ink: #17231a;
+  --ink-2: #45544a;
+  --ink-3: #7d8b80;
+  --ink-4: #a9b4ac;
+  --line: #e8ede8;
+  --paper: #ffffff;
+  --canvas: #f4f7f4;
+
+  /* 圆角体系 */
+  --r-sm: 12rpx;
+  --r-md: 20rpx;
+  --r-lg: 28rpx;
+  --r-pill: 999rpx;
+
+  /* 阴影：只做极轻抬升，避免廉价悬浮感 */
+  --shadow: 0 8rpx 28rpx rgba(23, 53, 33, 0.06);
+  --shadow-sm: 0 4rpx 14rpx rgba(23, 53, 33, 0.05);
+
+  /* 字号层级 */
+  --t-display: 48rpx;
+  --t-h1: 38rpx;
+  --t-h2: 32rpx;
+  --t-body: 28rpx;
+  --t-sm: 26rpx;
+  --t-cap: 24rpx;
+  --t-micro: 22rpx;
+
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: var(--t-body);
+  line-height: 1.6;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+}
+
+/* 去掉小程序 button 默认的发丝描边（原生圆角边框是廉价感的主要来源） */
+button::after {
+  border: none;
+}
+
+.container {
+  padding: 32rpx 32rpx 56rpx;
+  /* 适配全面屏底部指示条，避免内容被系统手势区遮挡 */
+  padding-bottom: calc(56rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(56rpx + env(safe-area-inset-bottom));
+}
+
+/* ---------- 卡片：纸面 + 发丝线，取代重阴影 ---------- */
+.card {
+  background: var(--paper);
+  border: 1rpx solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-title {
+  font-size: var(--t-h2);
+  font-weight: 600;
+  letter-spacing: 0.2rpx;
+  color: var(--ink);
+  margin-bottom: 16rpx;
+}
+
+/* 卡片标题下的说明行（原本散落的 muted，统一到同一层级） */
+.card-sub {
+  font-size: var(--t-cap);
+  color: var(--ink-3);
+  line-height: 1.6;
+}
+
+.muted {
+  color: var(--ink-3);
+  font-size: var(--t-cap);
+  line-height: 1.6;
+}
+
+/* 小标签：用于分区、字段名等弱信息 */
+.label {
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: 1rpx;
+  color: var(--ink-4);
+}
+
+.divider {
+  height: 1rpx;
+  background: var(--line);
+  margin: 24rpx 0;
+}
+
+/* ---------- 按钮：唯一两档，胶囊形 ---------- */
+.btn-primary {
+  background: var(--brand);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--r-pill);
+  font-size: var(--t-body);
+  font-weight: 600;
+  letter-spacing: 0.5rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  padding: 0 40rpx;
+  margin: 0;
+  box-shadow: 0 14rpx 30rpx rgba(46, 125, 70, 0.22);
+  transition: transform 160ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 160ms ease,
+    box-shadow 200ms ease, background-color 200ms ease;
+}
+
+.btn-primary[disabled] {
+  background: #b9cdbf;
+  color: #f2f7f3;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background: var(--brand-soft);
+  color: var(--brand-strong);
+  border: none;
+  border-radius: var(--r-pill);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0 36rpx;
+  margin: 0;
+  transition: transform 160ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 160ms ease,
+    background-color 200ms ease;
+}
+
+.btn-secondary[disabled] {
+  background: #eef2ee;
+  color: #b6c1b8;
+}
+
+/* ---------- 菜单行：列表式入口，用发丝线分隔，不用边框盒 ---------- */
+.entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 96rpx;
+  padding: 8rpx 0;
+  font-size: var(--t-body);
+  color: var(--ink);
+  border-bottom: 1rpx solid var(--line);
+  transition: transform 160ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 160ms ease;
+}
+
+.entry:last-child {
+  border-bottom: none;
+}
+
+.entry-arrow {
+  flex: 0 0 auto;
+  margin-left: 16rpx;
+  color: var(--ink-4);
+  font-size: 32rpx;
+  line-height: 1;
+}
+
+/* ---------- 胶囊标签 ---------- */
+.chip {
+  display: inline-block;
+  padding: 4rpx 18rpx;
+  font-size: var(--t-micro);
+  line-height: 1.5;
+  border-radius: var(--r-pill);
+  background: var(--brand-soft);
+  color: var(--brand-strong);
+}
+
+/* ---------- 深色数据面板：首页 / 个人中心的额度区，全局唯一的高对比块 ---------- */
+.stat-panel {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #24603a 0%, #1b4a2d 100%);
+  border-radius: var(--r-lg);
+  padding: 36rpx 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow);
+}
+
+/* 右上角一枚极淡的同心光晕，让深色面板有材质感但不抢信息 */
+.stat-veil {
+  position: absolute;
+  top: -140rpx;
+  right: -120rpx;
+  width: 380rpx;
+  height: 380rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 68%);
+  pointer-events: none;
+}
+
+.stat-label {
+  font-size: var(--t-cap);
+  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: 1rpx;
+}
+
+.stat-row {
+  display: flex;
+  align-items: baseline;
+  margin-top: 8rpx;
+}
+
+.stat-num {
+  font-size: 68rpx;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ffffff;
+}
+
+.stat-unit {
+  margin-left: 12rpx;
+  font-size: var(--t-cap);
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.stat-foot {
+  margin-top: 12rpx;
+  font-size: var(--t-micro);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ---------- 项目符号列表 ---------- */
+.bullet {
+  display: flex;
+  align-items: flex-start;
+  padding: 10rpx 0;
+  font-size: var(--t-sm);
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+
+.bullet::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 10rpx;
+  height: 10rpx;
+  margin: 17rpx 18rpx 0 0;
+  border-radius: 50%;
+  background: var(--brand);
+}
+
+.bullet-txt {
+  flex: 1;
+}
+
+/* ---------- 提示条：安全提示（琥珀）/ 补拍引导（蓝） ---------- */
+.safety-note {
+  background: var(--amber-bg);
+  border-radius: var(--r-lg);
+  padding: 28rpx 32rpx;
+  margin-bottom: 24rpx;
+  color: #6b4a10;
+  font-size: var(--t-sm);
+}
+
+.guide {
+  background: var(--info-bg);
+  border-radius: var(--r-lg);
+  padding: 28rpx 32rpx;
+  margin-bottom: 24rpx;
+  color: #1d4a72;
+  font-size: var(--t-sm);
+}
+
+.guide-title {
+  font-size: var(--t-body);
+  font-weight: 600;
+  color: inherit;
+  margin-bottom: 12rpx;
+}
+
+/* ---------- 三档方案：标签 + 卡片，共用一套视觉 ---------- */
+.plan-tag {
+  display: inline-block;
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: 0.5rpx;
+  padding: 6rpx 20rpx;
+  border-radius: var(--r-pill);
+  margin-bottom: 16rpx;
+}
+
+.tag-l1 {
+  background: var(--brand-soft);
+  color: var(--brand-strong);
+}
+
+.tag-l2 {
+  background: var(--amber-bg);
+  color: var(--amber);
+}
+
+.tag-l3 {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+/* 药剂条目：名称与用法两行，用发丝线区隔 */
+.chem-item {
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.chem-item:last-child {
+  border-bottom: none;
+}
+
+.chem-name {
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4rpx;
+}
+
+.plan-note {
+  margin-top: 16rpx;
+  font-size: var(--t-cap);
+  color: var(--ink-3);
+}
+
+.risk-note {
+  margin-top: 16rpx;
+  padding: 16rpx 20rpx;
+  background: var(--danger-bg);
+  color: var(--danger);
+  border-radius: var(--r-sm);
+  font-size: var(--t-cap);
+}
+
+/* ---------- 状态 ---------- */
+.degraded-tag {
+  display: inline-block;
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: var(--t-micro);
+  line-height: 1.5;
+  padding: 6rpx 18rpx;
+  border-radius: var(--r-pill);
+  margin-bottom: 20rpx;
+}
+
+.empty {
+  text-align: center;
+  color: var(--ink-3);
+  font-size: var(--t-sm);
+  padding: 96rpx 32rpx;
+}
+
+.empty-title {
+  font-size: var(--t-h2);
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8rpx;
+}
+
+/* ============================================================
+   动效系统
+   只做三类：内容入场、按压反馈、等待状态。
+   时长 160–520ms，缓动统一；宁可克制，不做炫技。
+   ============================================================ */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(28rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(48rpx) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* 页面入场：容器内每个直接子块自上而下依次上浮，形成阅读节奏 */
+.container > view {
+  animation: fadeUp 520ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.container > view:nth-child(1) {
+  animation-delay: 20ms;
+}
+
+.container > view:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.container > view:nth-child(3) {
+  animation-delay: 140ms;
+}
+
+.container > view:nth-child(4) {
+  animation-delay: 200ms;
+}
+
+.container > view:nth-child(5) {
+  animation-delay: 260ms;
+}
+
+.container > view:nth-child(6) {
+  animation-delay: 320ms;
+}
+
+.container > view:nth-child(n+7) {
+  animation-delay: 340ms;
+}
+
+/* 全屏遮罩是 fixed 定位：单独淡入、且不加延迟，避免整体位移和出现迟滞 */
+.container > view.privacy-mask {
+  animation: fadeIn 240ms ease both;
+  animation-delay: 0ms;
+}
+
+/* 按压反馈：可点元素统一缩到 0.975，配合 160ms 过渡回弹 */
+.press-hover {
+  transform: scale(0.975);
+  opacity: 0.88;
+}
+
+/* 纯文字链接只做淡出，缩放会让整段文字晃动 */
+.press-fade {
+  opacity: 0.5;
+}
+
+/* 等待状态：浅色卡片区域的骨架屏 */
+.skeleton {
+  border-radius: 10rpx;
+  background-image: linear-gradient(90deg, #eef2ee 25%, #e1e8e2 37%, #eef2ee 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skel-line {
+  height: 28rpx;
+  width: 56%;
+  margin-top: 24rpx;
+}
+
+.skel-line.short {
+  width: 34%;
+  margin-top: 16rpx;
+}
+
+/* 等待状态：转圈 + 呼吸文字（列表触底加载等场景） */
+.spinner {
+  width: 48rpx;
+  height: 48rpx;
+  border: 4rpx solid var(--line);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}
+
+.spinner-sm {
+  width: 30rpx;
+  height: 30rpx;
+  border-width: 3rpx;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 14rpx;
+}
+
+.loading-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 140rpx 0 0;
+}
+
+.loading-text {
+  margin-top: 28rpx;
+  font-size: var(--t-sm);
+  letter-spacing: 0.5rpx;
+  color: var(--ink-3);
+  animation: breathe 1.6s ease-in-out infinite;
+}
+
+/* 识别等待：外圈缓慢自转 + 中心呼吸圆点，暗示 AI 正在解析照片 */
+.scan-orb {
+  position: relative;
+  width: 160rpx;
+  height: 160rpx;
+}
+
+.scan-ring {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: 3rpx solid rgba(46, 125, 70, 0.16);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.scan-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 22rpx;
+  height: 22rpx;
+  margin: -11rpx 0 0 -11rpx;
+  border-radius: 50%;
+  background: var(--brand);
+  animation: breathe 1.6s ease-in-out infinite;
+}

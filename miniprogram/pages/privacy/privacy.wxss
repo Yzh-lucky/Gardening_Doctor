@@ -1,0 +1,46 @@
+/* 隐私政策：文档式排版，靠字距与行高读起来像一份正式文件 */
+
+.doc-hero {
+  padding: 40rpx 12rpx 36rpx;
+}
+
+.doc-title {
+  font-size: var(--t-h1);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.3rpx;
+  color: var(--ink);
+  margin-bottom: 12rpx;
+}
+
+.doc-lead {
+  margin-top: 24rpx;
+  font-size: var(--t-sm);
+  line-height: 1.8;
+  color: var(--ink-2);
+}
+
+/* 章节标题上加一道短绿线，作为层级锚点而非装饰 */
+.card-title {
+  position: relative;
+  padding-top: 20rpx;
+}
+
+.card-title::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40rpx;
+  height: 4rpx;
+  border-radius: 4rpx;
+  background: var(--brand);
+}
+
+.doc-actions {
+  margin-top: 40rpx;
+}
+
+.btn-block {
+  width: 100%;
+}
