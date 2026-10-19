@@ -79,8 +79,10 @@ Page({
   },
 
   onRetake() {
-    // 直接从结果页返回首页再拍一张；返回首页比 delta=1 稳，避免结果页是从历史进来时退错
-    wx.navigateBack({ delta: 1 });
+    // 再识别一张：固定回到首页重新拍照。
+    // 用 reLaunch 而不是 navigateBack——navigateBack 只弹一层，去哪儿取决于进结果页的路径
+    // （从历史点进来就会退回历史页），reLaunch 会清空页面栈、稳定落在首页。
+    wx.reLaunch({ url: '/pages/index/index' });
   },
 
   goFeedback() {
