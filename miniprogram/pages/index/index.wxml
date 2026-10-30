@@ -74,17 +74,36 @@
   </view>
 
   <view class="card">
-    <view class="card-title">常见病虫害科普</view>
+    <view class="section-head">
+      <view class="card-title">常见病虫害科普</view>
+      <view class="section-mark" wx:if="{{diseases.length}}">自动轮播</view>
+    </view>
     <block wx:if="{{diseases.length}}">
-      <view class="disease-item" wx:for="{{diseases}}" wx:key="id"
-            data-id="{{item.id}}" bindtap="goDisease"
-            hover-class="press-hover" hover-stay-time="80">
-        <view class="disease-head">
-          <text class="disease-name">{{item.name}}</text>
-          <text class="chip" wx:if="{{item.category}}">{{item.category}}</text>
-        </view>
-        <view class="disease-symptom">{{item.symptoms || '暂无症状描述'}}</view>
-      </view>
+      <!-- 自动轮播：4 秒一张，无限循环；每张仍是原来那个 goDisease 跳转 -->
+      <swiper class="disease-swiper"
+              autoplay="{{true}}" circular="{{true}}"
+              interval="4000" duration="520"
+              indicator-dots="{{true}}"
+              indicator-color="rgba(46, 125, 70, 0.22)"
+              indicator-active-color="#2e7d46">
+        <swiper-item wx:for="{{diseases}}" wx:key="id">
+          <view class="disease-slide" data-id="{{item.id}}" bindtap="goDisease"
+                hover-class="press-fade" hover-stay-time="80">
+            <view class="disease-media">
+              <view class="disease-media-fallback"></view>
+              <image class="disease-img" src="/assets/diseases/{{item.name}}.jpg" mode="aspectFill" />
+            </view>
+            <view class="disease-body">
+              <view class="disease-head">
+                <text class="disease-name">{{item.name}}</text>
+                <text class="chip" wx:if="{{item.category}}">{{item.category}}</text>
+              </view>
+              <view class="disease-symptom">{{item.symptoms || '暂无症状描述'}}</view>
+              <view class="disease-more">查看详情 ›</view>
+            </view>
+          </view>
+        </swiper-item>
+      </swiper>
     </block>
     <view wx:elif="{{diseasesLoaded}}" class="muted">暂无科普内容</view>
     <view wx:else class="disease-loading">

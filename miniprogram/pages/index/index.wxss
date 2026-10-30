@@ -126,15 +126,86 @@
   padding: 8rpx 32rpx;
 }
 
-/* ---------- 科普卡片 ---------- */
-.disease-item {
-  padding: 26rpx 0;
-  border-bottom: 1rpx solid var(--line);
-  transition: transform 160ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 160ms ease;
+/* ---------- 科普轮播 ---------- */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
 }
 
-.disease-item:last-child {
-  border-bottom: none;
+.section-head .card-title {
+  margin-bottom: 0;
+}
+
+/* 「自动轮播」只是一个弱提示，不抢标题层级 */
+.section-mark {
+  flex: 0 0 auto;
+  margin-left: 16rpx;
+  font-size: var(--t-micro);
+  letter-spacing: 1rpx;
+  color: var(--ink-4);
+}
+
+.disease-swiper {
+  height: 320rpx;
+}
+
+.disease-slide {
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
+  /* 底部留白给原生指示点，避免压住「查看详情」 */
+  padding: 4rpx 0 40rpx;
+  box-sizing: border-box;
+}
+
+/* 图片缺失时的兜底：低饱和绿底 + 一枚淡叶形，保证没有照片也不空荡 */
+.disease-media {
+  position: relative;
+  flex: 0 0 216rpx;
+  width: 216rpx;
+  height: 216rpx;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--brand-tint);
+}
+
+.disease-media-fallback {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--brand-tint);
+}
+
+.disease-media-fallback::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 86rpx;
+  height: 110rpx;
+  margin: -55rpx 0 0 -43rpx;
+  border-radius: 60% 0 60% 0;
+  background: rgba(46, 125, 70, 0.14);
+  transform: rotate(-18deg);
+}
+
+.disease-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.disease-body {
+  flex: 1;
+  min-width: 0;
+  margin-left: 24rpx;
+  padding-top: 2rpx;
 }
 
 .disease-head {
@@ -146,17 +217,34 @@
   font-size: var(--t-body);
   font-weight: 600;
   color: var(--ink);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .disease-head .chip {
+  flex: 0 0 auto;
   margin-left: 16rpx;
 }
 
 .disease-symptom {
-  margin-top: 8rpx;
+  margin-top: 10rpx;
   font-size: var(--t-cap);
   line-height: 1.55;
   color: var(--ink-3);
+  /* 轮播卡高度固定，症状最多两行，超出省略避免撑破版式 */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.disease-more {
+  margin-top: 16rpx;
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: 0.4rpx;
+  color: var(--brand);
 }
 
 /* 科普列表加载态：两条骨架线代替干巴巴的「加载中…」 */
